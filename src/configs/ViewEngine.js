@@ -5,4 +5,5 @@ const configViewEngine = (app) => {
     app.set("views", "./src/views");
     app.use(express.static('./src/public'))
 }
-export default configViewEngine
+// export default configViewEngine
+module.exports = configViewEngine;
