@@ -1,7 +1,7 @@
 import express from 'express';
-import configViewEngine from './configs/viewEngine';
 require('dotenv').config();
 import initWebRoute from './route/web'
+import configViewEngine from './configs/viewEngine';
 import initAPIRoute from './route/api';
 import connectDB from './config/connectDB';
 import cors from 'cors';
