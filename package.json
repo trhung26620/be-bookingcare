@@ -21,14 +21,18 @@
     "@babel/core": "7.15.5",
     "@babel/node": "7.15.4",
     "@babel/preset-env": "7.15.6",
+    "@ethersproject/bignumber": "^5.7.0",
+    "@openzeppelin/contracts": "^4.8.1",
     "app-root-path": "3.0.0",
     "bcrypt": "^5.0.1",
     "bcryptjs": "^2.4.3",
+    "bn.js": "^5.2.1",
     "body-parser": "1.19.0",
     "cors": "^2.8.5",
     "dotenv": "10.0.0",
     "ejs": "3.1.6",
     "express": "4.17.1",
+    "html-entities": "^2.3.3",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
     "morgan": "1.10.0",
@@ -39,7 +43,8 @@
     "pg": "8.7.1",
     "pg-hstore": "2.3.4",
     "sequelize": "^6.6.2",
-    "uuid": "8.3.2"
+    "uuid": "8.3.2",
+    "web3": "^1.8.1"
   },
   "devDependencies": {
     "sequelize-cli": "^6.2.0"

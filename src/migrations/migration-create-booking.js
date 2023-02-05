@@ -26,6 +26,12 @@ module.exports = {
             token: {
                 type: Sequelize.STRING
             },
+            billId: {
+                type: Sequelize.STRING
+            },
+            isInitPayment: {
+                type: Sequelize.BOOLEAN
+            },
             createdAt: {
                 allowNull: false,
                 type: Sequelize.DATE

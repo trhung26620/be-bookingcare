@@ -11,6 +11,7 @@ let handleLogin = async (req, res) => {
         })
     }
     let userData = await userService.handleUserLogin(email, password);
+
     return res.status(200).json({
         errCode: userData.errCode,
         message: userData.errMessage,
@@ -75,11 +76,26 @@ let getAllCode = async (req, res) => {
     }
 }
 
+let myTest = async (req, res) => {
+    try {
+        // setTimeout(async () => {
+        let data = await userService.myTest();
+        return res.status(200).json(data);
+        // }, 5000)
+    } catch (error) {
+        console.log('Get allcode error:', e)
+        return res.status(200).json({
+            errCode: -1,
+            errMessage: 'Error from server'
+        })
+    }
+}
 module.exports = {
     handleLogin: handleLogin,
     handleGetAllUsers: handleGetAllUsers,
     handleCreateNewUser: handleCreateNewUser,
     handleEditUser: handleEditUser,
     handleDeleteUser: handleDeleteUser,
-    getAllCode: getAllCode
+    getAllCode: getAllCode,
+    myTest: myTest
 }

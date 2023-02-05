@@ -79,14 +79,13 @@ let saveDetailInforDoctor = (inputData) => {
             } else {
                 //upsert to markdown
                 if (inputData.action === 'CREATE') {
+                    console.log("DEBUG1");
                     await db.Markdown.create({
                         contentHTML: inputData.contentHTML,
                         contentMarkdown: inputData.contentMarkdown,
                         description: inputData.description,
                         doctorId: inputData.doctorId
                     })
-
-
                 } else if (inputData.action === 'EDIT') {
                     let doctorMarkdown = await db.Markdown.findOne({
                         where: { doctorId: inputData.doctorId },
@@ -192,13 +191,18 @@ let getDetailDoctorById = (inputId) => {
     })
 }
 
-let bulkCreateSchedule = (data) => {
+let bulkCreateSchedule = (data, userId) => {
     return new Promise(async (resolve, reject) => {
         try {
             if (!data.arrSchedule || !data.doctorId || !data.formatedDate) {
                 resolve({
                     errCode: 1,
                     errMessage: 'Missing required parameter!'
+                })
+            } else if (userId !== data.doctorId) {
+                resolve({
+                    errCode: 2,
+                    errMessage: 'Invalid doctorId'
                 })
             } else {
                 let schedule = data.arrSchedule
@@ -208,12 +212,10 @@ let bulkCreateSchedule = (data) => {
                         return item;
                     })
                 }
-
                 let existing = await db.Schedule.findAll({
                     where: { doctorId: data.doctorId, date: data.formatedDate },
                     attributes: ['timeType', 'date', 'doctorId', 'maxNumber']
                 });
-
                 //compare difference
                 let toCreate = _.differenceWith(schedule, existing, (a, b) => {
                     return a.timeType === b.timeType && +a.date === +b.date;
@@ -223,7 +225,6 @@ let bulkCreateSchedule = (data) => {
                 if (toCreate && toCreate.length > 0) {
                     await db.Schedule.bulkCreate(toCreate);
                 }
-                console.log("🚀 ~ file: doctorService.js:159 ~ returnnewPromise ~ schedule", schedule)
                 resolve({
                     errCode: 0,
                     errMessage: 'OK'
@@ -432,6 +433,35 @@ let sendRemedy = (data) => {
     })
 }
 
+
+let getDoctorInfoById = (doctorId) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (!doctorId) {
+                resolve({
+                    errCode: 1,
+                    errMessage: 'Missing required parameters'
+                })
+            } else {
+                let info = await db.User.findOne({
+                    where: {
+                        id: doctorId,
+                        roleId: 'R2'
+                    },
+                    attributes: {
+                        exclude: ['password', 'image', 'createdAt', 'updatedAt']
+                    }
+                })
+                resolve({
+                    errCode: 0,
+                    data: info
+                })
+            }
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
 module.exports = {
     getTopDoctorHome: getTopDoctorHome,
     getAllDoctors: getAllDoctors,
@@ -442,5 +472,6 @@ module.exports = {
     getExtraInforDoctorById: getExtraInforDoctorById,
     getProfileDoctorById: getProfileDoctorById,
     getListPatientForDoctor: getListPatientForDoctor,
-    sendRemedy: sendRemedy
+    sendRemedy: sendRemedy,
+    getDoctorInfoById: getDoctorInfoById
 }

@@ -7,9 +7,15 @@ const salt = bcrypt.genSaltSync(10);
 import jwt from 'jsonwebtoken'
 const Op = db.Sequelize.Op;
 const config = require("../configs/auth.config");
+// import Web3 from 'web3';
+// import { CONTACT_ADDRESS, CONTACT_ABI, provider } from './loadContract'
+import { loadContract } from './loadContract'
+// import { contract } from './loadContract'
+require('dotenv').config();
+
+// const contract = loadContract()
 
 let handleUserLogin = (email, password) => {
-    console.log("🚀 ~ file: userService.js:11 ~ handleUserLogin ~ email, password", email, password)
     return new Promise(async (resolve, reject) => {
         try {
             let userData = {}
@@ -29,7 +35,6 @@ let handleUserLogin = (email, password) => {
 
                         userData.errCode = 0;
                         userData.errMessage = 'Ok';
-                        console.log(user)
                         delete user.password;
                         userData.user = user;
                         userData.user.accessToken = token;
@@ -74,7 +79,7 @@ let getAllUsers = (userId) => {
         try {
             let users = '';
             if (userId === 'ALL') {
-                users = db.User.findAll({
+                users = await db.User.findAll({
                     attributes: {
                         exclude: ['password']
                     }
@@ -88,7 +93,6 @@ let getAllUsers = (userId) => {
                     }
                 })
             }
-            console.log(users)
             resolve(users)
         } catch (error) {
             reject(error)
@@ -119,8 +123,15 @@ let createNewUser = (data) => {
                     gender: data.gender,
                     roleId: data.roleId,
                     positionId: data.positionId,
-                    image: data.avatar
+                    image: data.avatar,
+                    walletAddress: data.walletAddress
                 })
+                if (data.walletAddress) {
+                    let contract = loadContract();
+                    await contract.methods.registerAccountForDoctor(data.walletAddress).send({
+                        from: process.env.ACCOUNT_ADDRESS
+                    })
+                }
                 resolve({
                     errCode: 0,
                     message: 'OK',
@@ -161,7 +172,8 @@ let deleteUser = (userId) => {
 let updateUserData = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
-            if (!data.id || !data.firstName || !data.lastName || !data.address || !data.roleId || !data.phonenumber || !data.positionId || !data.gender) {
+            if (!data.id || !data.firstName || !data.lastName || !data.address || !data.roleId
+                || !data.phonenumber || !data.positionId || !data.gender || !data.walletAddress) {
                 resolve({
                     errCode: 2,
                     errMessage: 'Missing required parameter'
@@ -181,8 +193,13 @@ let updateUserData = (data) => {
                     user.phonenumber = data.phonenumber;
                     if (data.avatar) {
                         user.image = data.avatar;
-                    }
+                    };
+                    user.walletAddress = data.walletAddress;
                     await user.save();
+                    // let contract = loadContract();
+                    // await contract.methods.registerAccountForDoctor(data.walletAddress).send({
+                    //     from: process.env.ACCOUNT_ADDRESS
+                    // })
                     resolve({
                         errCode: 0,
                         message: 'Update the user succeeds!'
@@ -223,11 +240,31 @@ let getAllCodeService = (typeInput) => {
         }
     })
 }
+
+let myTest = () => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            // const web3 = new Web3(provider);
+            // let contract = new web3.eth.Contract(CONTACT_ABI, CONTACT_ADDRESS);
+            let contract = loadContract();
+            let temp2 = await contract.methods.getBalanceByDoctorAccountDebug('0x03A338b062bE0b681b228405cFd8496df8eFe077').call();
+            console.log("🚀 ~ file: userService.js:233 ~ returnnewPromise ~ temp2", temp2)
+            resolve({
+                errCode: 0,
+                errMessage: 'ok',
+                data: temp2
+            })
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
 module.exports = {
     handleUserLogin: handleUserLogin,
     getAllUsers: getAllUsers,
     createNewUser: createNewUser,
     deleteUser: deleteUser,
     updateUserData: updateUserData,
-    getAllCodeService: getAllCodeService
+    getAllCodeService: getAllCodeService,
+    myTest: myTest
 }

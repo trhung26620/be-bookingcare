@@ -3,7 +3,7 @@ const config = require("../configs/auth.config.js");
 const db = require('../models/index');
 const User = db.User;
 
-verifyToken = (req, res, next) => {
+let verifyToken = (req, res, next) => {
     let token = req.headers["x-access-token"];
 
     if (!token) {
@@ -18,14 +18,14 @@ verifyToken = (req, res, next) => {
                 message: "Unauthorized!"
             });
         }
-        // lay id trong jwt ra va them vao object req
         req.userId = decoded.id;
         next();
     });
 };
 
-isAdmin = async (req, res, next) => {
-    data = await User.findByPk(req.userId)
+let isAdmin = async (req, res, next) => {
+    let data = await User.findByPk(req.userId)
+
     // .then(user => {
     // user.getRoles().then(roles => {
     if (data.roleId === "R1") {
@@ -40,8 +40,8 @@ isAdmin = async (req, res, next) => {
     return;
 }
 
-isDoctor = async (req, res, next) => {
-    data = await User.findByPk(req.userId)
+let isDoctor = async (req, res, next) => {
+    let data = await User.findByPk(req.userId)
     if (data.roleId === "R2") {
         next();
         return;
@@ -62,8 +62,8 @@ isDoctor = async (req, res, next) => {
 //     });
 // }
 
-isDoctorOrAdmin = async (req, res, next) => {
-    data = await User.findByPk(req.userId)
+let isDoctorOrAdmin = async (req, res, next) => {
+    let data = await User.findByPk(req.userId)
     if (data.roleId === "R1" || data.roleId === "R2") {
         next();
         return;
@@ -79,10 +79,17 @@ isDoctorOrAdmin = async (req, res, next) => {
     });
 };
 
-const authJwt = {
+// const authJwt = {
+//     verifyToken: verifyToken,
+//     isAdmin: isAdmin,
+//     isDoctor: isDoctor,
+//     isDoctorOrAdmin: isDoctorOrAdmin
+// };
+// module.exports = authJwt;
+
+module.exports = {
     verifyToken: verifyToken,
     isAdmin: isAdmin,
     isDoctor: isDoctor,
     isDoctorOrAdmin: isDoctorOrAdmin
-};
-module.exports = authJwt;
+}

@@ -6,6 +6,8 @@ import initAPIRoute from './route/api';
 import connectDB from './config/connectDB';
 import cors from 'cors';
 import bodyParser from 'body-parser';
+import initAuthRoute from './route/auth'
+import initUnAuthRoute from './route/unAuth'
 
 var morgan = require('morgan')
 
@@ -30,15 +32,16 @@ const port = process.env.PORT || 8000;
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`)
 })
-// app.use(express.urlencoded({ extended: true }));
-// app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 configViewEngine(app);
 
+initUnAuthRoute(app);
+// initAuthRoute(app);
 initWebRoute(app);
-
 initAPIRoute(app);
 
 connectDB();
