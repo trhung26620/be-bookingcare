@@ -165,7 +165,9 @@ contract HealthcarePayments {
         public
         checkValidDoctorTransaction(msg.sender, withdrawAmount)
     {
-        payable(msg.sender).transfer(withdrawAmount);
+        // payable(msg.sender).transfer(withdrawAmount);
+        (bool success, ) = payable(msg.sender).call{value: withdrawAmount}("");
+        require(success);
         doctorAccounts[msg.sender] -= withdrawAmount;
     }
 
