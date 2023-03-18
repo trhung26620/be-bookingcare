@@ -32,10 +32,10 @@ const port = process.env.PORT || 8000;
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`)
 })
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-app.use(bodyParser.json({ limit: '50mb' }));
-app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
+app.use(express.json({ limit: '50mb' }));
+// app.use(bodyParser.json({ limit: '50mb' }));
+// app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 configViewEngine(app);
 
@@ -46,7 +46,7 @@ initAPIRoute(app);
 
 connectDB();
 // handle 404 not found
-
 app.use((req, res) => {
     return res.render('404.ejs')
 })
+

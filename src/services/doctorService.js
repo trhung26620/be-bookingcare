@@ -79,7 +79,6 @@ let saveDetailInforDoctor = (inputData) => {
             } else {
                 //upsert to markdown
                 if (inputData.action === 'CREATE') {
-                    console.log("DEBUG1");
                     await db.Markdown.create({
                         contentHTML: inputData.contentHTML,
                         contentMarkdown: inputData.contentMarkdown,

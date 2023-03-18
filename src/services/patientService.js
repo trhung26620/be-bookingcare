@@ -142,6 +142,7 @@ let postBookAppointment = (data) => {
                             language: data.language,
                             redirectLink: buildUrlEmail(data.doctorId, token)
                         })
+                        console.log("Debug3")
                         resolve({
                             errCode: 0,
                             errMessage: 'Save infor doctor succeed!'
