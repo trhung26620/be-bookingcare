@@ -12,11 +12,11 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       User.belongsTo(models.Allcode, { foreignKey: 'positionId', targetKey: 'keyMap', as: 'positionData' })
       User.belongsTo(models.Allcode, { foreignKey: 'gender', targetKey: 'keyMap', as: 'genderData' })
-      User.hasOne(models.Markdown, { foreignKey: 'doctorId' })
+      User.hasOne(models.Markdown, { foreignKey: 'doctorId', onDelete: 'cascade', hooks: true })
       User.hasOne(models.Doctor_Infor, { foreignKey: 'doctorId' })
-      User.hasMany(models.Schedule, { foreignKey: 'doctorId', as: 'doctorData' })
-      User.hasMany(models.Booking, { foreignKey: 'patientId', as: 'patientData' })
-      User.hasMany(models.Booking, { foreignKey: 'doctorId', as: 'doctorId' })
+      User.hasMany(models.Schedule, { foreignKey: 'doctorId', as: 'doctorData', onDelete: 'cascade', hooks: true })
+      User.hasMany(models.Booking, { foreignKey: 'patientId', as: 'patientData', onDelete: 'cascade', hooks: true })
+      User.hasMany(models.Booking, { foreignKey: 'doctorId', as: 'doctorId', onDelete: 'cascade', hooks: true })
       // define association here
     }
   };

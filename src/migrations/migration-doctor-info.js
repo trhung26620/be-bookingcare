@@ -6,11 +6,17 @@ module.exports = {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
-                type: Sequelize.INTEGER
+                type: Sequelize.INTEGER,
             },
             doctorId: {
                 type: Sequelize.INTEGER,
-                allowNull: false
+                allowNull: false,
+                onDelete: "CASCADE",
+                references: {
+                    model: "Users",
+                    key: "id",
+                    as: "doctorId",
+                },
             },
             specialtyId: {
                 type: Sequelize.INTEGER,

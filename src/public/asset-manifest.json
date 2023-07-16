@@ -1,0 +1,29 @@
+{
+  "files": {
+    "main.css": "/static/css/main.d3724c19.chunk.css",
+    "main.js": "/static/js/main.e922cbe1.chunk.js",
+    "main.js.map": "/static/js/main.e922cbe1.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.070c1a80.js",
+    "runtime-main.js.map": "/static/js/runtime-main.070c1a80.js.map",
+    "static/css/2.4982ff03.chunk.css": "/static/css/2.4982ff03.chunk.css",
+    "static/js/2.c78ddbfa.chunk.js": "/static/js/2.c78ddbfa.chunk.js",
+    "static/js/2.c78ddbfa.chunk.js.map": "/static/js/2.c78ddbfa.chunk.js.map",
+    "index.html": "/index.html",
+    "static/css/2.4982ff03.chunk.css.map": "/static/css/2.4982ff03.chunk.css.map",
+    "static/css/main.d3724c19.chunk.css.map": "/static/css/main.d3724c19.chunk.css.map",
+    "static/js/2.c78ddbfa.chunk.js.LICENSE.txt": "/static/js/2.c78ddbfa.chunk.js.LICENSE.txt",
+    "static/media/co-xuong-khop.e76737be.jpg": "/static/media/co-xuong-khop.e76737be.jpg",
+    "static/media/styles.scss": "/static/media/fa-solid-900.d279d01b.svg",
+    "static/media/HomePage.scss": "/static/media/handbook.d58143d6.jpg",
+    "static/media/HomeHeader.scss": "/static/media/header-background.827fd54e.jpg",
+    "static/media/logo.2e2d78c9.svg": "/static/media/logo.2e2d78c9.svg",
+    "static/media/slick-theme.css": "/static/media/slick.c94f7671.ttf"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.070c1a80.js",
+    "static/css/2.4982ff03.chunk.css",
+    "static/js/2.c78ddbfa.chunk.js",
+    "static/css/main.d3724c19.chunk.css",
+    "static/js/main.e922cbe1.chunk.js"
+  ]
+}

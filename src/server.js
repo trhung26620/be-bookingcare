@@ -13,11 +13,12 @@ var morgan = require('morgan')
 
 const app = express();
 // app.use(cors({ origin: false }));
+const path = __dirname + "/public/"
 var corsOptions = {
     origin: process.env.URL_REACT,
     // origin: "*",
     optionsSuccessStatus: 200,
-    credentials: true// some legacy browsers (IE11, various SmartTVs) choke on 204
+    credentials: true // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 
 
@@ -32,10 +33,19 @@ const port = process.env.PORT || 8000;
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`)
 })
-app.use(express.urlencoded({ limit: '50mb', extended: true }));
-app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({
+    limit: '50mb',
+    extended: true
+}));
+app.use(express.json({
+    limit: '50mb'
+}));
 // app.use(bodyParser.json({ limit: '50mb' }));
 // app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
+
+app.get('/', function (req, res) {
+    res.sendFile(path + "index.html");
+});
 
 configViewEngine(app);
 
@@ -44,9 +54,8 @@ initUnAuthRoute(app);
 initWebRoute(app);
 initAPIRoute(app);
 
-connectDB();
+// connectDB();
 // handle 404 not found
 app.use((req, res) => {
     return res.render('404.ejs')
 })
-

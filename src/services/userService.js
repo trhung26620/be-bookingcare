@@ -138,6 +138,7 @@ let createNewUser = (data) => {
                 })
             }
         } catch (error) {
+            console.log("🚀 ~ file: userService.js:141 ~ returnnewPromise ~ error:", error)
             reject(error)
         }
     })
@@ -156,16 +157,38 @@ let hashUserPassword = (password) => {
 
 let deleteUser = (userId) => {
     return new Promise(async (resolve, reject) => {
-        let user = await db.User.findOne({
-            where: { id: userId }
-        })
-        if (!user) {
-            resolve({ errCode: 2, errMessage: `The user isn't exist` })
+        try {
+            // console.log("🚀 ~ file: userService.js:158 ~ deleteUser ~ userId:", userId)
+            // let user = await db.User.findOne({
+            //     logging: console.log,
+            //     where: { id: +userId },
+            //     // include: [
+            //     //     { model: db.Doctor_Infor, raw: false }
+            //     //     //     // { model: db.Markdown },
+            //     //     //     { model: db.Doctor_Infor },
+            //     //     //     // { model: db.Schedule, as: 'doctorData' },
+            //     //     //     // { model: db.Booking, as: 'patientData' },
+            //     //     //     // { model: db.Booking, as: 'doctorId' }
+            //     // ],
+            //     raw: false
+            // })
+            // console.log("🚀 ~ file: userService.js:169 ~ returnnewPromise ~ user:", user)
+            // if (!user) {
+            //     resolve({ errCode: 2, errMessage: `The user isn't exist` })
+            // }
+            // await user.destroy(
+            //     { logging: console.log }
+            // );
+            await db.User.destroy({
+                where: { id: userId },
+            });
+            console.log('debug')
+            resolve({ errCode: 0, message: `The user is deleted` })
+        } catch (error) {
+            console.log("🚀 ~ file: userService.js:184 ~ returnnewPromise ~ error:", error)
+
         }
-        await db.User.destroy({
-            where: { id: userId }
-        });
-        resolve({ errCode: 0, message: `The user is deleted` })
+
     })
 }
 

@@ -6,7 +6,8 @@ module.exports = {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
-                type: Sequelize.INTEGER
+                type: Sequelize.INTEGER,
+                onDelete: 'cascade'
             },
             currentNumber: {
                 type: Sequelize.INTEGER
@@ -21,7 +22,8 @@ module.exports = {
                 type: Sequelize.STRING
             },
             doctorId: {
-                type: Sequelize.INTEGER
+                type: Sequelize.INTEGER,
+                onDelete: 'cascade'
             },
             createdAt: {
                 allowNull: false,
